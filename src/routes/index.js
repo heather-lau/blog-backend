@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import express from 'express'
-import index_controller from '../controllers/index'
+import user_controller from '../controllers/users'
 import articles_controller from '../controllers/articles'
 
 const router = express.Router()
@@ -12,7 +12,9 @@ router.all('*', (req, res, next) => {
   return next()
 })
 
-router.get('/', index_controller.base)
+// User routes
+router.post('/signup', user_controller.signup)
+router.post('/signin', user_controller.signin)
 
 // Article routes
 router.get('/articles', articles_controller.list)

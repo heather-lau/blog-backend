@@ -1,22 +1,30 @@
 import asyncHandler from 'express-async-handler'
 
 import User from '../models/user'
-import { BadRequestError } from '../error'
+import { BadRequestError, AuthenticationError } from '../error'
 
 export default {
-  // Display list of all users
-  list: asyncHandler(async (req, res, next) => {
-    const userList = await User.find({})
-    res.formatSend(userList)
-  }),
-
-  // Create user
-  create: asyncHandler(async (req, res, next) => {
-    const { name } = req.body
-    if (!name) {
-      throw next(new BadRequestError('Name is required'))
+  // User signup
+  signup: asyncHandler(async (req, res, next) => {
+    const { username, name, password } = req.body
+    if (!username || !name || !password) {
+      next(new BadRequestError('Name is required'))
     }
     const createdUser = await User.create(req.body)
     res.formatSend(createdUser)
+  }),
+  // User signin
+  signin: asyncHandler(async (req, res, next) => {
+    const { username, password } = req.body
+    if (!username || !password) {
+      next(new BadRequestError('Username and password are required'))
+    }
+
+    const user = await User.authenticate(username, password)
+    if (!user) {
+      next(new AuthenticationError('Invalid username or password'))
+    }
+
+    res.formatSend({message: 'ok'})
   })
 }

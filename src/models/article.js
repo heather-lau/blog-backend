@@ -11,6 +11,11 @@ const ArticleSchema = new Schema({
     type: String,
     required: [true, 'Content is required']
   },
+  author: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'User is required'],
+  },
   updatedAt: {
     type: Date,
     default: Date.now

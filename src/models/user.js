@@ -5,9 +5,23 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Please enter the name']
+    required: [true, 'Name is requeired']
   }, 
+  username: {
+    type: String,
+    required: [true, 'Username is required'],
+    trim: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required']
+  },
   createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  lastLogin: {
     type: Date,
     default: Date.now
   }

@@ -10,8 +10,9 @@ import { BaseError, ResourceNotFoundError } from './error'
 
 const app = express()
 
-mongoose.connect(`mongodb://${CONFIG.db_host}:${CONFIG.db_port}/${CONFG.db_name}`, {
-  useNewUrlParser: true
+mongoose.connect(`mongodb://${CONFIG.db_host}:${CONFIG.db_port}/${CONFIG.db_name}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
 
 mongoose.connection.on('error', (err) => {

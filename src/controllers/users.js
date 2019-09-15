@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/user'
 import { BadRequestError } from '../error'
 
-export default{
+export default {
   // Display list of all users
   list: asyncHandler(async (req, res, next) => {
     const userList = await User.find({})

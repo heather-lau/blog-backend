@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 
 import User from '../models/user'
+import TokenHelper from '../utils/token'
 import { BadRequestError, AuthenticationError } from '../error'
 
 export default {
@@ -13,6 +14,7 @@ export default {
     const createdUser = await User.create(req.body)
     res.formatSend(createdUser)
   }),
+
   // User signin
   signin: asyncHandler(async (req, res, next) => {
     const { username, password } = req.body
@@ -25,6 +27,9 @@ export default {
       next(new AuthenticationError('Invalid username or password'))
     }
 
-    res.formatSend({message: 'ok'})
+    // Signing JWT access token
+    const accessToken = await TokenHelper.createAccessToken(user)
+
+    res.formatSend({accessToken})
   })
 }

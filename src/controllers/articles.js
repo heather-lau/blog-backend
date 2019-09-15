@@ -2,12 +2,14 @@ import AsyncHandler from 'express-async-handler'
 import { Types as mongooseTypes } from 'mongoose'
 
 import Article from '../models/article'
-import { BadRequestError, ResourceNotFoundError } from '../error'
+import { AuthenticationError, BadRequestError, ResourceNotFoundError } from '../error'
 
 export default {
   // Display list of all articles
   list: AsyncHandler(async (req, res, next) => {
-    const articleList = await Article.find({})
+    const articleList = await Article
+      .find({})
+      .populate('author', ['name'])
 
     res.formatSend(articleList)
   }),
@@ -19,11 +21,13 @@ export default {
     // Validate id 
     const validId = mongooseTypes.ObjectId.isValid(id)
     if (!validId) {
-      throw next(new ResourceNotFoundError())
+      next(new ResourceNotFoundError())
     }
 
     // Find the article
-    const articleDetails = await Article.findById(id)
+    const articleDetails = await Article
+      .findById(id)
+      .populate('author', ['name'])
 
     res.formatSend(articleDetails)
   }),
@@ -33,7 +37,7 @@ export default {
     // Check required fields
     const { title, content } = req.body
     if (!title || !content) {
-      throw next(new BadRequestError())
+      next(new BadRequestError())
     }
 
     // Create an article
@@ -49,13 +53,13 @@ export default {
     // Validate id 
     const validId = mongooseTypes.ObjectId.isValid(id)
     if (!validId) {
-      throw next(new ResourceNotFoundError())
+      next(new ResourceNotFoundError())
     }
 
     // Check required fields
     const { title, content } = req.body
     if (!title || !content) {
-      throw next(new BadRequestError())
+      next(new BadRequestError())
     }
 
     // Update an article
@@ -71,7 +75,7 @@ export default {
     // Validate id 
     const validId = mongooseTypes.ObjectId.isValid(id)
     if (!validId) {
-      throw next(new ResourceNotFoundError())
+      next(new ResourceNotFoundError())
     }
 
     // Delete a article

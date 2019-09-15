@@ -1,7 +1,9 @@
 import 'babel-polyfill'
 import express from 'express'
+
 import user_controller from '../controllers/users'
 import articles_controller from '../controllers/articles'
+import auth from '../middlewares/auth'
 
 const router = express.Router()
 
@@ -17,6 +19,7 @@ router.post('/signup', user_controller.signup)
 router.post('/signin', user_controller.signin)
 
 // Article routes
+router.use('/articles', auth.requiresLogin)
 router.get('/articles', articles_controller.list)
 router.post('/articles', articles_controller.create)
 router.put('/articles/:id', articles_controller.update)

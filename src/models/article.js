@@ -14,7 +14,7 @@ const ArticleSchema = new Schema({
   author: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User is required'],
+    required: [true, 'Author is required'],
   },
   updatedAt: {
     type: Date,

@@ -12,7 +12,8 @@ const app = express()
 
 mongoose.connect(`mongodb://${CONFIG.db_host}:${CONFIG.db_port}/${CONFIG.db_name}`, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
 
 mongoose.connection.on('error', (err) => {

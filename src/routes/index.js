@@ -17,7 +17,6 @@ router.get('/', index_controller.base)
 // Article routes
 router.get('/articles', articles_controller.list)
 router.post('/articles', articles_controller.create)
-router.delete('/articles', articles_controller.deleteAll)
 router.put('/articles/:id', articles_controller.update)
 router.get('/articles/:id', articles_controller.details)
 router.delete('/articles/:id', articles_controller.delete)

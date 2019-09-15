@@ -47,7 +47,7 @@ export default {
     const { id } = req.params
 
     // Validate id 
-    const validId = Types.ObjectId.isValid(id)
+    const validId = mongooseTypes.ObjectId.isValid(id)
     if (!validId) {
       throw next(new ResourceNotFoundError())
     }
@@ -69,20 +69,13 @@ export default {
     const { id } = req.params
 
     // Validate id 
-    const validId = Types.ObjectId.isValid(id)
+    const validId = mongooseTypes.ObjectId.isValid(id)
     if (!validId) {
       throw next(new ResourceNotFoundError())
     }
 
     // Delete a article
     const deletedArticle = await Article.findByIdAndDelete(id)
-
-    res.formatSend({})
-  }),
-
-  // Handle delete all articles form by ELETE
-  deleteAll: AsyncHandler(async (req, res, next) => {
-    const deletedAllArticles = Article.deleteAll()
 
     res.formatSend({})
   })
